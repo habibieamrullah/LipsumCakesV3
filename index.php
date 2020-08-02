@@ -1,13 +1,16 @@
 <?php
+
+//Have any question? Contact me: habibieamrullah@gmail.com . Have extra money to support me? Donate via paypal to that email address. Thanks!
+
 /*
 if(!isset($_GET["test"])){
-    echo "The page is under maintenance. Contact +6590610096 (WhatsApp only) for any inquiries.";
+    echo "The page is under maintenance. Contact +6287880334339 (WhatsApp only) for any inquiries.";
 }else{
 */    
 
 
     session_start();
-    include("db.php");
+    include("config.php");
     if(isset($_POST["submitorder"])){
         
         $ordernumber = mysqli_real_escape_string($connection, $_POST["ordernumber"]);
@@ -18,13 +21,13 @@ if(!isset($_GET["test"])){
         $deliverytime = mysqli_real_escape_string($connection, $_POST["deliverytime"]); 
         $cakes = mysqli_real_escape_string($connection, $_POST["cakes"]); 
         
-        mysqli_query($connection, "INSERT INTO orders (ordernumber, name, address, phone, deliverydate, deliverytime, cakes) VALUES ('$ordernumber', '$ordername', '$orderaddress', '$orderphone', '$deliverydate', '$deliverytime', '$cakes')");
+        mysqli_query($connection, "INSERT INTO $tablename (ordernumber, name, address, phone, deliverydate, deliverytime, cakes) VALUES ('$ordernumber', '$ordername', '$orderaddress', '$orderphone', '$deliverydate', '$deliverytime', '$cakes')");
     }else{
         ?>
         <!DOCTYPE html>
         <html>
             <head>
-                <title>Pretty Bakes</title>
+                <title><?php echo $sitetitle ?></title>
                 <meta charset="utf-8">
                 <meta http-equiv="Pragma" content="no-cache" />
                 <meta http-equiv="Expires" content="0" />
@@ -35,7 +38,7 @@ if(!isset($_GET["test"])){
                 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		        <link rel="icon" href="favicon.ico" type="image/x-icon">
 		        
-		        <meta name="description" content="Deliciously Homemade"/>
+		        <meta name="description" content="<?php echo $sitemotto ?>"/>
 		        <meta property="og:image:url" content="thumbnailimage.png" />
                 
                 <script
@@ -293,10 +296,6 @@ if(!isset($_GET["test"])){
                     ?>
                     <div style="margin-top: -150px; padding: 10px; font-family: arial;">
                         <?php
-                        $username = "pbakes";
-                        $password = "pbakes2020";
-                        
-                        
                         
                         if(isset($_SESSION["username"]) && isset($_SESSION["password"]) && $_SESSION["username"] == $username && $_SESSION["password"] == $password){
                             ?>
@@ -306,7 +305,7 @@ if(!isset($_GET["test"])){
                             <?php
                             
                             //ordernumber, name, address, phone, deliverydate, deliverytime, cakes
-                            $sql = "SELECT * FROM orders ORDER BY id DESC";
+                            $sql = "SELECT * FROM $tablename ORDER BY id DESC";
                             $result = mysqli_query($connection, $sql);
                             while($row = mysqli_fetch_assoc($result)){
                                 ?>
@@ -328,7 +327,7 @@ if(!isset($_GET["test"])){
                                     ?>
                                     <p>Please wait...</p>
                                     <script>
-                                        location.href = "https://prettybakes.online/?admin"
+                                        location.href = "<?php echo $siteurl ?>?admin"
                                     </script>
                                     <?php
                                 }
@@ -359,15 +358,7 @@ if(!isset($_GET["test"])){
                         <div id="appbar">
                             <img src="logo.png" width="256px;">
                         </div>
-                        <!--
-                        <div id="menubutton" onclick="toggledrawer()">
-                            <i class="fa fa-bars"></i>
-                        </div>
-                        <div id="infobutton">
-                            <i class="fa fa-info"></i>
-                        </div>
-                        -->
-                        
+
                         <div style="text-align: center;">
                             <div style="width: 100%; display: inline-block; max-width: 900px; margin: 0 auto;">
                                 <div class="page order">
@@ -400,15 +391,13 @@ if(!isset($_GET["test"])){
                                             <p>Delivery Address</p>
                                             <input id="orderaddress" value="N/A (Self Collect)">
                                             <p>
-                                                Island Wide Delivery $10<br>
-                                                Payment by Cash on Delivery or PayNow
+                                                Lorem Ipsum Dolor
                                             </p>
                                         </div>
                                         <div id="selfcollect">
                                             <p>
                                                 Self-collect from:<br>
-                                                Blk 613B Punggol Drive<br>
-                                                Singapore 822613<br>
+                                                Lorem Ipsum Dolor<br>
                                 
                                             </p>
                                         </div>
@@ -432,7 +421,7 @@ if(!isset($_GET["test"])){
                                     </div>
                                     <div class="block">
                                         <h3 align="center" class="nicefont">Payment Mode</h3>
-                                        <p align="center">Cash on Delivery or PayNow to 90610096</p>
+                                        <p align="center">Cash on Delivery or PayPal</p>
                                     </div>
                                     
                                     <div class="greenblock" onclick="ordernow(0)">
@@ -443,13 +432,6 @@ if(!isset($_GET["test"])){
                             </div>
                         </div>
                         
-                        <div class="page about">
-                            <div class="block">
-                                <h1>About</h1>
-                                <p>Home baking business providing cakes that are baked from a scratch, preservative-free and prepared just-in-time to ensure freshness. </p>
-                                <p>A ‘Baker of Stories’ Preeti Mangai started Pretty Bakes to unleash her baking ideas in accordance with the personality of her friends and family (who she initially baked for). When stories and photos of her bakes gained traction on social media, she realised there was a gap in the market for personalisation of baked goods. In a quest to infuse “traditional, nostalgic, and contemporary” local flavours into cakes and desserts and since then has gathered a bevvy of fans. One look at her Instagram page and we promise you will be craving cakes. You will drool for the Bundung Butter Cake and Plut Hitam Cotton Cake.</p>
-                            </div>
-                        </div>
                     </div>
                     
                     
@@ -598,7 +580,6 @@ if(!isset($_GET["test"])){
                         }
                         
                         
-                        
                         function addThisCake(n){
                             if(orderdetails.cakes.length > 0){
                                 for(var i = 0; i < orderdetails.cakes.length; i++){
@@ -702,7 +683,7 @@ if(!isset($_GET["test"])){
                                             $("#cover").fadeIn()
                                         
                                             //post to php
-                                            $.post( "https://prettybakes.online/", { 
+                                            $.post( "<?php echo $siteurl ?>", { 
                                                 submitorder: "yes!", 
                                                 ordernumber : ordernumber,
                                                 ordername : ordername,
@@ -715,7 +696,7 @@ if(!isset($_GET["test"])){
                                                 console.log("Response: " + data)
                                                 //send wa
                                                 var omuri = encodeURI(ordermessage)
-                                                location.href = "https://wa.me/6590610096?text=" + omuri
+                                                location.href = "https://wa.me/<?php echo $mobilenumber ?>?text=" + omuri
                                             });
                                         }
                                         
@@ -748,14 +729,14 @@ if(!isset($_GET["test"])){
                         
                         //appending cakes gallery to the customised cakes
                         var data1 = ""
-                        for(var i = 0; i < 7; i++){
+                        for(var i = 0; i < 3; i++){ // 3 because by default I have 3 custom designed cake examples
                             data1 += "<div style='margin: 5px; display: inline-block;'><a href='pastdesigns1/"+(i+1)+".jpg' target='_blank'><img src='pastdesigns1/"+(i+1)+".jpg' width='64px' style='border-radius: 3px;'/></a></div>"
                         }
                         var data2 = ""
-                        for(var i = 0; i < 28; i++){
+                        for(var i = 0; i < 3; i++){ // 3 because by default I have 3 custom designed cake examples
                             data2 += "<div style='margin: 5px; display: inline-block; vertical-align: top; max-height: 64px;'><a href='pastdesigns2/"+(i+1)+".jpg' target='_blank'><img src='pastdesigns2/"+(i+1)+".jpg' width='64px' style='border-radius: 3px; ' /></a></div>"
                         }
-                        $("#cakescontentCustomisedCake").append("<div style='margin-bottom: 30px;'><h3 style='margin-top: 15px;'>Custom Fondant Cake Designs</h3><div>" + data1 + "</div><h3 style='margin-top: 15px;'>Custom Butter Cream Cake Designs</h3><div>"+data2+"</div></div>")
+                        $("#cakescontentCustomisedCake").append("<div style='margin-bottom: 30px;'><h3 style='margin-top: 15px;'>Examples 1</h3><div>" + data1 + "</div><h3 style='margin-top: 15px;'>Examples 2</h3><div>"+data2+"</div></div>")
                         
                         
                         
