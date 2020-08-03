@@ -3,7 +3,7 @@
 //Basic Settings
 $sitetitle = "Lorem Ipsum Cakes V3";
 $sitemotto = "Delicious Online Cake Shop Template";
-$siteurl = "http://localhost/ThirteeNov/LoremIpsumCakes3/"; //your current site domain
+$siteurl = "http://localhost/ThirteeNov/LipsumCakesV3/"; //your current site domain
 $mobilenumber = "6287880334339"; //your phone number that can be contacted via WhatsApp
 
 //Admin username and password
